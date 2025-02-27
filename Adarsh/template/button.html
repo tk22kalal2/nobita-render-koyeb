@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Button Example</title>
+  <style>
+    /* Add some basic styling to the buttons */
+    button {
+      display: block;
+      width: 100%;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+
+    /* Hide the additional buttons and collapsible text by default */
+    .additional-buttons {
+      display: none;
+    }
+
+    .collapsible-text {
+      display: none;
+    }
+
+    /* Style for the back button */
+    .back-button {
+      background-color: #2196F3;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- The main button -->
+  <button id="prepladderButton" onclick="showAdditionalButtons()">PREPLADDER</button>
+
+  <div class="additional-buttons">
+    <!-- Anatomy button and its collapsible text -->
+    <button id="anatomyButton" onclick="toggleCollapsibleText('anatomyText')">ANATOMY</button>
+    <div class="collapsible-text" id="anatomyText">
+      <p>My name is Tarang Kalal</p>
+    </div>
+
+    <!-- Biochemistry button and its collapsible text -->
+    <button id="biochemistryButton" onclick="toggleCollapsibleText('biochemistryText')">BIOCHEMISTRY</button>
+    <div class="collapsible-text" id="biochemistryText">
+      <p>Who are you?</p>
+    </div>
+
+    <!-- Back to Main Menu button -->
+    <button class="back-button" onclick="backToMainMenu()">BACK TO MAIN MENU</button>
+  </div>
+
+  <script>
+    // JavaScript function to show the additional buttons and hide the main button
+    function showAdditionalButtons() {
+      var prepladderButton = document.getElementById('prepladderButton');
+      prepladderButton.style.display = 'none';
+
+      var additionalButtonsContainer = document.querySelector('.additional-buttons');
+      additionalButtonsContainer.style.display = 'block';
+    }
+
+    // JavaScript function to toggle the collapsible text
+    function toggleCollapsibleText(textId) {
+      var collapsibleText = document.getElementById(textId);
+
+      // Toggle the display of the collapsible text
+      if (collapsibleText.style.display === 'block') {
+        collapsibleText.style.display = 'none';
+      } else {
+        collapsibleText.style.display = 'block';
+      }
+    }
+
+    // JavaScript function to go back to the main menu
+    function backToMainMenu() {
+      var prepladderButton = document.getElementById('prepladderButton');
+      prepladderButton.style.display = 'block';
+
+      var additionalButtonsContainer = document.querySelector('.additional-buttons');
+      additionalButtonsContainer.style.display = 'none';
+    }
+  </script>
+
+</body>
+</html>
