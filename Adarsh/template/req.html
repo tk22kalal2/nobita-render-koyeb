@@ -71,14 +71,15 @@
     </div>
 
     
-<script src="https://cdn.plyr.io/3.6.9/plyr.js"></script>
+   <script src="https://cdn.plyr.io/3.6.9/plyr.js"></script>
 <script>
+    // Plyr Player Setup
     const controls = [
         'play-large',
         'rewind',
-        'play', 
-        'fast-forward', 
-        'progress', 
+        'play',
+        'fast-forward',
+        'progress',
         'current-time',
         'duration',
         'mute',
@@ -87,42 +88,29 @@
         'settings',
         'pip',
         'airplay',
+        'download',
         'fullscreen'
     ];
 
     document.addEventListener('DOMContentLoaded', () => {
-        const players = Plyr.setup('.player', { controls });
-        const player = players[0]; // Get the first (or only) player instance
-        const videoElement = document.querySelector('.player');
-        let lastTapTime = 0; // Store last tap time
+        Plyr.setup('.player', { controls });
 
-        // Disable Plyr's default fullscreen behavior on double-tap
-        videoElement.addEventListener('dblclick', (event) => {
-            event.preventDefault(); // Stops default fullscreen action
-        });
+        // Countdown Timer Logic
+        let timeLeft = 20;
+        const timerEl = document.getElementById("timer");
 
-        videoElement.addEventListener('touchend', (event) => {
-            event.preventDefault(); // Prevents default fullscreen activation on double-tap
+        const countdown = setInterval(() => {
+            timerEl.textContent = `Download will start in ${timeLeft} second${timeLeft !== 1 ? 's' : ''}...`;
+            timeLeft--;
 
-            const currentTime = new Date().getTime();
-            const tapGap = currentTime - lastTapTime;
-
-            if (tapGap < 300) { // Detect double-tap within 300ms
-                const clickX = event.changedTouches[0].clientX;
-                const videoWidth = videoElement.clientWidth;
-
-                if (clickX < videoWidth / 2) {
-                    // Double-tap on left side → Rewind 10 seconds
-                    player.currentTime = Math.max(0, player.currentTime - 10);
-                } else {
-                    // Double-tap on right side → Forward 10 seconds
-                    player.currentTime = Math.min(player.duration, player.currentTime + 10);
-                }
+            if (timeLeft < 0) {
+                clearInterval(countdown);
+                timerEl.textContent = "Download is ready!";
             }
-            lastTapTime = currentTime;
-        });
+        }, 1000);
     });
 
+    // Optional references
     const body = document.querySelector('body');
     const footer = document.querySelector('footer');
     const toogle = document.querySelector('.toogle');
