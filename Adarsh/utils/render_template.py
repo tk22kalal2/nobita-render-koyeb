@@ -35,20 +35,37 @@ async def render_page(id, secure_hash):
                     file_size = humanbytes(int(u.headers.get('Content-Length')))
                     html = (await r.read()) % (heading, file_data.file_name, src, file_size)
     current_url = f'{Var.URL}/{str(id)}/{file_data.file_name}?hash={secure_hash}'
+   
     html_code = f'''
-    
     <p>
     <center>
-    
-<button style="border: 0; padding: 0; width: 320px; height: 40px; font-size: 20px; background-color: #2ecc71; border: 0; border-radius: 0; border-bottom-left-radius: 5px; border-top-left-radius: 5px; border-bottom-right-radius: 5px; border-top-right-radius: 5px; padding: 0; color: white;" onclick="window.location.href = '{current_url}'">Download Now</button>
-<div id="timer" style="margin-top: 10px; font-size: 18px; color: #555;"></div>
-
+        <button id="downloadBtn" style="border: 0; padding: 0; width: 320px; height: 40px; font-size: 20px; background-color: #2ecc71; border-radius: 5px; color: white;" onclick="window.location.href = '{current_url}'">
+            Download Now
+        </button>
+        <div id="timer" style="margin-top: 10px; font-size: 18px; color: #555;"></div>
     </center>
-</p>
+    </p>
+    
     <footer style="position: fixed; left: 0; bottom: 0; width: 100%; background-color: #1b1b1b; color: #ccc; text-align: center; padding: 10px; font-size: 14px;">
     Copyright © 2025 NEXTPULSE.<br>
     All Rights Reserved.
-</footer>
-'''
+    </footer>
+    
+    <script>
+        let timeLeft = 20;
+        const timerEl = document.getElementById("timer");
+    
+        const countdown = setInterval(() => {
+            if (timeLeft >= 0) {{
+                timerEl.textContent = "Download will start in " + timeLeft + " second" + (timeLeft !== 1 ? "s" : "") + "...";
+                timeLeft--;
+            }} else {{
+                clearInterval(countdown);
+                timerEl.textContent = "Download is ready!";
+            }}
+        }, 1000);
+    </script>
+    '''
+
     html += html_code    
     return html
