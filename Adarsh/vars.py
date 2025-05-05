@@ -34,7 +34,7 @@ class Var(object):
         ON_HEROKU = False
 
     _FQDN_LIST = ["stream.nextpulse.workers.dev"] + [
-        f"stream{i}.nextpulse.workers.dev" for i in range(1, 26)
+        f"stream{i}.nextpulse.workers.dev" for i in range(1, 3)
     ]
 
     # Select a random FQDN ONCE at initialization
