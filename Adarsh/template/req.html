@@ -96,11 +96,11 @@
         Plyr.setup('.player', { controls });
 
         // Countdown Timer Logic
-        let timeLeft = 20;
+        let timeLeft = 25;
         const timerEl = document.getElementById("timer");
 
         const countdown = setInterval(() => {
-            timerEl.textContent = `Download will start in ${timeLeft} second${timeLeft !== 1 ? 's' : ''}...`;
+            timerEl.textContent = `Streaming will start in ${timeLeft} second${timeLeft !== 1 ? 's' : ''}...`;
             timeLeft--;
 
             if (timeLeft < 0) {
