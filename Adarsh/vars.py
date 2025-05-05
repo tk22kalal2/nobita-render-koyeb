@@ -17,7 +17,7 @@ class Var(object):
     BIN_CHANNEL = int(getenv('BIN_CHANNEL', ''))
     DB_CHANNEL = int(getenv('DB_CHANNEL', ''))
     DISABLE_CHANNEL_BUTTON = os.environ.get("DISABLE_CHANNEL_BUTTON", None) == 'True'
-    PROTECT_CONTENT = True if os.environ.get('PROTECT_CONTENT', "True") == "True" else False
+    PROTECT_CONTENT = os.environ.get('PROTECT_CONTENT', "True") == "True"
     CUSTOM_CAPTION = os.environ.get("CUSTOM_CAPTION", None)
     PORT = int(getenv('PORT', 8080))
     BIND_ADDRESS = str(getenv('WEB_SERVER_BIND_ADDRESS', '0.0.0.0'))
@@ -33,26 +33,29 @@ class Var(object):
     else:
         ON_HEROKU = False
 
-    # List of available FQDNs (including "stream" + "stream1" to "stream25")
-    _FQDN_LIST = ["stream.nextpulse.workers.dev"] + [f"stream{i}.nextpulse.workers.dev" for i in range(1, 26)]
+    _FQDN_LIST = ["stream.nextpulse.workers.dev"] + [
+        f"stream{i}.nextpulse.workers.dev" for i in range(1, 26)
+    ]
 
-    @staticmethod
-    def _get_random_fqdn():
-        """Returns a random FQDN each time it's accessed."""
-        return random.choice(Var._FQDN_LIST)
+    # Select a random FQDN ONCE at initialization
+    _selected_fqdn = random.choice(_FQDN_LIST)
 
-    def __getattr__(self, name):
-        """Dynamically return random FQDN when 'FQDN' or 'URL' is accessed."""
-        if name == "FQDN":
-            return self._get_random_fqdn()
-        if name == "URL":
-            return f"https://{self._get_random_fqdn()}/"
-        raise AttributeError(f"'{self.__class__.__name__}' object has no attribute '{name}'")
+    @property
+    def FQDN(self):
+        """Returns the same random FQDN for the life of the object."""
+        return self._selected_fqdn
+
+    @property
+    def URL(self):
+        """Returns the base URL using the selected FQDN."""
+        return f"https://{self._selected_fqdn}/"
 
     DATABASE_URL = str(getenv('DATABASE_URL', ''))
     UPDATES_CHANNEL = str(getenv('UPDATES_CHANNEL', None))
-    BANNED_CHANNELS = list(set(int(x) for x in str(getenv("BANNED_CHANNELS", "")).split() if x.isdigit()))
+    BANNED_CHANNELS = list(set(
+        int(x) for x in str(getenv("BANNED_CHANNELS", "")).split() if x.isdigit()
+    ))
 
 
-# Instantiate the class so 'Var.FQDN' and 'Var.URL' work globally
+# Instantiate the class so Var.FQDN and Var.URL are available globally with consistency
 Var = Var()
