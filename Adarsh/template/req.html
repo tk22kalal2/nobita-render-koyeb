@@ -53,31 +53,49 @@
     </p>	     
     </footer>
     <script src="https://cdn.plyr.io/3.6.9/plyr.js"></script>
-	<script>
-        const controls = [
-              'play-large',
-              'rewind',
-              'play', 
-              'fast-forward', 
-              'progress', 
-              'current-time',
-              'duration',
-              'mute',
-              'volume',
-              'captions',
-              'settings',
-              'pip',
-              'airplay',
-              'download',
-              'fullscreen'
-            ];
-        document.addEventListener('DOMContentLoaded', () => {
-            const player = Plyr.setup('.player', { controls });
-        });
+<script>
+    // Plyr Player Setup
+    const controls = [
+        'play-large',
+        'rewind',
+        'play',
+        'fast-forward',
+        'progress',
+        'current-time',
+        'duration',
+        'mute',
+        'volume',
+        'captions',
+        'settings',
+        'pip',
+        'airplay',
+        'download',
+        'fullscreen'
+    ];
 
-        const body = document.querySelector('body');
-        const footer = document.querySelector('footer');
-        const toogle = document.querySelector('.toogle');
-    </script>
+    document.addEventListener('DOMContentLoaded', () => {
+        Plyr.setup('.player', { controls });
+
+        // Countdown Timer Logic
+        let timeLeft = 20;
+        const timerEl = document.getElementById("timer");
+
+        const countdown = setInterval(() => {
+            timerEl.textContent = `Download will start in ${timeLeft} second${timeLeft !== 1 ? 's' : ''}...`;
+            timeLeft--;
+
+            if (timeLeft < 0) {
+                clearInterval(countdown);
+                timerEl.textContent = "Download is ready!";
+            }
+        }, 1000);
+    });
+
+    // Optional references
+    const body = document.querySelector('body');
+    const footer = document.querySelector('footer');
+    const toogle = document.querySelector('.toogle');
+</script>
+
 </body>
 </html>
