@@ -201,7 +201,7 @@ async def private_receive_handler(c: Client, m: Message):
 
         reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton("STREAM ⏯️", url=stream_link)]])
         await log_msg.edit_reply_markup(reply_markup)        
-        F_text = f"<tr><td>&lt;a href='{download_link}' target='_blank'&gt; {caption} &lt;/a&gt;</td></tr>"
+        F_text = f"<tr><td>&lt;a href='{stream_link}' target='_blank'&gt; {caption} &lt;/a&gt;</td></tr>"
         text = f"<tr><td>{F_text}</td></tr>"
         X = await m.reply_text(text=f"{text}", disable_web_page_preview=True, quote=True)
         await asyncio.sleep(3)
